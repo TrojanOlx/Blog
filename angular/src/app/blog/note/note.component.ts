@@ -41,7 +41,7 @@ export class NoteComponent extends PagedListingComponentBase<NoteDto>{
     input.textType = 0;
     input.title = "请输入标题";
     input.content = "请输入内容";
-    this._noteService.create(input).subscribe(m=>{
+    this._noteService.create(input).subscribe(m => {
       this.refresh();
       this.editNote(m);
     })
@@ -51,23 +51,30 @@ export class NoteComponent extends PagedListingComponentBase<NoteDto>{
     this.showCreateOrEditNoteDialog(note.id);
   }
 
-  showCreateOrEditNoteDialog(id?: number) {
+  publicNote(note: NoteDto): void {
+    this.showCreateOrEditNoteDialog(note.id,true);
+  }
+
+  showCreateOrEditNoteDialog(id?: number, isPublic = false) {
     let createOrEditNoteDialog;
-    if (id === undefined) {
-      createOrEditNoteDialog = this._dialog.open(CreateNoteDialogComponent);
+    if (isPublic) {
+      createOrEditNoteDialog = this._dialog.open(EditNoteDialogComponent,{
+        data:{id,isPublic}
+      });
     } else {
       createOrEditNoteDialog = this._dialog.open(EditNoteDialogComponent, {
-        data: id
+        data: {id,isPublic}
       });
     }
-
-
     createOrEditNoteDialog.afterClosed().subscribe(result => {
       if (result) {
         this.refresh();
       }
     })
   }
+
+
+
 
   protected list(request: PagedNoteRequestDto, pageNumber: number, finishedCallback: Function): void {
     request.keyword = this.keyword;
@@ -96,6 +103,4 @@ export class NoteComponent extends PagedListingComponentBase<NoteDto>{
       }
     );
   }
-
-
 }

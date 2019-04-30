@@ -1,6 +1,6 @@
 {
-  "remoteServiceBaseUrl": "http://n1.oulongxing.com:10080",
-  "appBaseUrl": "http://ruiec.oulongxing.com:10080",
+  "remoteServiceBaseUrl": "http://localhost:21021",
+  "appBaseUrl": "http://localhost:4200",
   "localeMappings": [
     {
       "from": "pt-BR",

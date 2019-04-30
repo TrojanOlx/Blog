@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, Optional, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Injector, Optional, Inject, ViewChild, ElementRef, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { PublicNoteDto, NoteServiceService } from '@app/blog/note-service.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -24,16 +24,19 @@ export class EditNoteDialogComponent extends AppComponentBase implements OnInit 
     injector: Injector,
     public _noteService: NoteServiceService,
     private _dialogRef: MatDialogRef<EditNoteDialogComponent>,
-    @Optional()@Inject(MAT_DIALOG_DATA) private _id:number
+    @Optional()@Inject(MAT_DIALOG_DATA) private input:any
   ) {
     super(injector);
   }
 
   ngOnInit() :void{
-    this._noteService.getNote(this._id).subscribe(result=>{
+    this._noteService.getNote(this.input.id).subscribe(result=>{
+      if (this.input.isPublic){
+        this.model=2;
+        this.isFull=true;
+      }
       this.note=result;
       this.active=true;
-      // this.modal.show();
       this.term.valueChanges
           .pipe(debounceTime(300),distinctUntilChanged())
           .subscribe(term=>{
@@ -47,7 +50,12 @@ export class EditNoteDialogComponent extends AppComponentBase implements OnInit 
   }
 
   publicNote():void{
-
+    this.note.img="http://oulongxing.com/images/Trojan.png";
+    this.note.des='略略略,略略略,略略略;';
+    this._noteService.publicNote(this.note).subscribe(m=>{
+      abp.notify.success(this.l('Success'));
+      this.close(true);
+    })
   }
 
 
@@ -61,7 +69,7 @@ export class EditNoteDialogComponent extends AppComponentBase implements OnInit 
   // 关闭
   close(result :any):void{
     this.updateNote();
-    // this.modal.hide();
+    this.active=false;
     this._dialogRef.close(result);
   }
 

@@ -47,14 +47,14 @@ namespace Trojan.Web.Host.Startup
                 options => options.AddPolicy(
                     _defaultCorsPolicyName,
                     builder => builder
-                        //.WithOrigins(
-                        //    // App:CorsOrigins in appsettings.json can contain more than one address separated by comma.
-                        //    _appConfiguration["App:CorsOrigins"]
-                        //        .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                        //        .Select(o => o.RemovePostFix("/"))
-                        //        .ToArray()
-                        //)
-                        .AllowAnyOrigin()
+                        .WithOrigins(
+                            // App:CorsOrigins in appsettings.json can contain more than one address separated by comma.
+                            _appConfiguration["App:CorsOrigins"]
+                                .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                                .Select(o => o.RemovePostFix("/"))
+                                .ToArray()
+                        )
+                        //.AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials()
@@ -92,12 +92,19 @@ namespace Trojan.Web.Host.Startup
 
             app.UseCors(_defaultCorsPolicyName); // Enable CORS!
 
+            //app.UseCors(options =>
+            //{
+            //    options.AllowAnyOrigin()
+            //            .AllowAnyHeader()
+            //            .AllowAnyMethod()
+            //            .AllowCredentials();
+            //});
+
             app.UseStaticFiles();
 
             app.UseAuthentication();
 
             app.UseAbpRequestLocalization();
-
 
             app.UseSignalR(routes =>
             {
