@@ -61,7 +61,7 @@ namespace Trojan.Blog.Notes
                 .PageBy(input)
                 .ToListAsync();
 
-            var aaa = ObjectMapper.Map<List<NoteDto>>(notes).ToList();
+            
             return new PagedResultDto<NoteDto>()
             {
                 TotalCount = count,
