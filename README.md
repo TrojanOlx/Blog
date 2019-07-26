@@ -7,6 +7,8 @@ This is a template to create **ASP.NET Core MVC / Angular** based startup projec
  
 User Interface is based on [BSB Admin theme](https://github.com/gurayyarar/AdminBSBMaterialDesign).
  
+[![生成状态](http://localhost:8080/DefaultCollection/%E6%B5%8B%E8%AF%95/_apis/build/status/%E6%B5%8B%E8%AF%95-ASP.NET-CI)](http://localhost:8080/DefaultCollection/%E6%B5%8B%E8%AF%95/_build/latest?definitionId=-1) 
+
 # Download
 
 Create & download your project from https://aspnetboilerplate.com/Templates
